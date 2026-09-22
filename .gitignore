@@ -14,3 +14,7 @@ venv/
 
 # VS Code
 .vscode/
+
+# Generated data
+data/raw/
+data/processed/
