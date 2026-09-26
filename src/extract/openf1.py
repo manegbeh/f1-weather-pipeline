@@ -75,11 +75,6 @@ def extract_drivers(session_key):
 
     return response.json()
 
-def save_raw_json(data, filepath):
-    with open(filepath, "w") as file:
-        json.dump(data, file, indent=4)
-
-
 def extract_sessions(year, session_name):
     url = "https://api.openf1.org/v1/sessions"
 
@@ -98,6 +93,25 @@ def extract_sessions(year, session_name):
 
     return response.json()
 
+def extract_weather(session_key):
+    url = "https://api.openf1.org/v1/weather"
+
+    params = {
+        "session_key": session_key
+    }
+
+    response = requests.get(
+        url,
+        params=params,
+        timeout=30
+    )
+
+    response.raise_for_status()
+    return response.json()
+
+def save_raw_json(data, filepath):
+    with open(filepath, "w") as file:
+        json.dump(data, file, indent=4)
 
 if __name__ == "__main__":
     session_key = 9636
@@ -140,3 +154,15 @@ if __name__ == "__main__":
         save_raw_json(drivers, drivers_filepath)
         print("Drivers extracted", len(drivers))
         print("Saved to:", drivers_filepath)
+
+    weather_filepath = f"data/raw/openf1/session_{session_key}_weather.json"
+
+    if Path(weather_filepath).exists():
+        print("OpenF1 weather already downloaded - skipping API request")
+    else:
+        weather = extract_weather(session_key)
+
+        save_raw_json(weather, weather_filepath)
+
+        print("Weather records extracted:", len(weather))
+        print("Saved to:", weather_filepath)
