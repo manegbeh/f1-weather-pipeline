@@ -109,6 +109,23 @@ def extract_weather(session_key):
     response.raise_for_status()
     return response.json()
 
+def extract_race_control(session_key):
+    url = "https://api.openf1.org/v1/race_control"
+
+    params = {
+        "session_key": session_key
+    }
+
+    response = requests.get(
+        url,
+        params=params,
+        timeout=30
+    )
+
+    response.raise_for_status()
+
+    return response.json()
+
 def save_raw_json(data, filepath):
     with open(filepath, "w") as file:
         json.dump(data, file, indent=4)
@@ -166,3 +183,29 @@ if __name__ == "__main__":
 
         print("Weather records extracted:", len(weather))
         print("Saved to:", weather_filepath)
+
+race_control_filepath = (
+    f"data/raw/openf1/session_{session_key}_race_control.json"
+)
+
+if Path(race_control_filepath).exists():
+    print(
+        "Race control already downloaded - skipping API request"
+    )
+else:
+    race_control = extract_race_control(session_key)
+
+    save_raw_json(
+        race_control,
+        race_control_filepath
+    )
+
+    print(
+        "Race-control records extracted:",
+        len(race_control)
+    )
+
+    print(
+        "Saved to:",
+        race_control_filepath
+    )
