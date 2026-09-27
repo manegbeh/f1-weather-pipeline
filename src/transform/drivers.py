@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+from pathlib import Path
 
 def transform_drivers(data):
     df = pd.DataFrame(data)
@@ -46,6 +47,7 @@ if __name__ == "__main__":
 
     clean_drivers = transform_drivers(data)
     output_path = "data/processed/openf1/session_9636_drivers.parquet"
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     clean_drivers.to_parquet(output_path, index=False)
     
     print(f"Saved processed drivers to {output_path}")

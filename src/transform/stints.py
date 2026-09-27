@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+from pathlib import Path
 
 def transform_stints(data):
     df = pd.DataFrame(data)
@@ -50,8 +51,8 @@ if __name__ == "__main__":
         data = json.load(file)
 
     clean_stints = transform_stints(data)
-
     output_path = "data/processed/openf1/session_9636_stints.parquet"
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     clean_stints.to_parquet(output_path, index=False)
 
     print(f"Saved processed stints to {output_path}")

@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+from pathlib import Path
 
 def transform_pit_stops(data):
     df = pd.DataFrame(data)
@@ -56,6 +57,7 @@ if __name__ == "__main__":
 
     clean_pit_stops = transform_pit_stops(data)
     output_path = "data/processed/openf1/session_9636_pit_stops.parquet"
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     clean_pit_stops.to_parquet(output_path, index=False)
     
     print(f"Saved processed pit stops to {output_path}")

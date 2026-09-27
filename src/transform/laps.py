@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+from pathlib import Path
 
 def transform_laps(data):
     df = pd.DataFrame(data)
@@ -70,6 +71,7 @@ if __name__ == "__main__":
 
     clean_laps = transform_laps(data)
     output_path = "data/processed/openf1/session_9636_laps.parquet"
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     clean_laps.to_parquet(output_path, index=False)
 
     print(f"Saved processed laps to {output_path}")
