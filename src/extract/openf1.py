@@ -138,10 +138,10 @@ if __name__ == "__main__":
         print("Laps already downloaded - skipping API request")
     else:
         laps = extract_laps(session_key)
-        save_raw_json(laps, filepath)
+        save_raw_json(laps, laps_filepath)
         print("Race session:", session_key)
         print("Lap records extracted:", len(laps))
-        print("Saved to:", filepath)
+        print("Saved to:", laps_filepath)
     
     stints_filepath = f"data/raw/openf1/session_{session_key}_stints.json"
     if Path(stints_filepath).exists():
