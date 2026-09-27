@@ -127,6 +127,9 @@ def extract_race_control(session_key):
     return response.json()
 
 def save_raw_json(data, filepath):
+    filepath = Path(filepath)
+    filepath.parent.mkdir(parents=True, exist_ok=True)
+
     with open(filepath, "w") as file:
         json.dump(data, file, indent=4)
 
